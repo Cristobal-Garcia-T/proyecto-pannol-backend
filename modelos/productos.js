@@ -1,19 +1,19 @@
-// Es como realizar un import, aquí añadimos o incorporamos la dependencia
-// de mongoose al archivo o modelo implementado.
 const { Schema, model } = require("mongoose");
 
-const ArticuloSchema = Schema({
-    titulo: {
+const ProductoSchema = Schema({
+    nombre: {
         type: String,
         required: true
     },
-    contenido: {
+    id: {
         type: String,
-        required: true
+        required: true,
+        unique: true
     },
-    fecha: {
-        type: Date,
-        default: Date.now
+    stock: {
+        type: Number,
+        required: true,
+        min: 0
     },
     imagen: {
         type: String,
@@ -21,4 +21,4 @@ const ArticuloSchema = Schema({
     }
 });
 
-module.exports = model("Articulo", ArticuloSchema, "articulos");
+module.exports = model("Producto", ProductoSchema, "productos");

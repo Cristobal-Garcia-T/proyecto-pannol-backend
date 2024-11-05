@@ -4,7 +4,7 @@ const conexion = async() => {
 
     try {
 
-        await mongoose.connect("proyectopannol-shard-00-00.dcs6l.mongodb.net:27017");
+        await mongoose.connect("mongodb+srv://Cristobal-Garcia-T:CGT64@proyectopannol.dcs6l.mongodb.net/");
 
         console.log("Conectado correctamente a la base de datos mi_blog !!");
 

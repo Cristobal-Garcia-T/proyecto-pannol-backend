@@ -15,3 +15,5 @@ const subidas = multer({storage: almacenamiento});
 
 router.post("/crear", SolicitudControlador.crear);
 router.get("solicitudes", SolicitudControlador.listar);
+
+module.exports = router;

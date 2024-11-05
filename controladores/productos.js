@@ -1,33 +1,41 @@
-const Producto = require("../modelos/Producto"); //Hay que crear el modelo para importarlo
+const fs = require("fs");
+const path = require("path");
+const { validarProducto, validarIdProducto } = require("../util/validar");
+const Producto = require("../modelos/Producto");
 
-// Crear producto
 const crearProducto = async (req, res) => {
-    let parametros = req.body;
+    const parametros = req.body;
 
     try {
+        validarProducto(parametros);
+
         const producto = new Producto(parametros);
         await producto.save();
 
         return res.status(200).json({
             status: "éxito",
             producto,
-            mensaje: "Producto creado con éxito"
+            mensaje: "Producto creado con éxito!"
         });
     } catch (error) {
-        return res.status(500).json({
+        return res.status(400).json({
             status: "error",
-            mensaje: "No se pudo crear el producto"
+            mensaje: "Error al crear el producto",
+            error
         });
     }
 };
 
+// Editar un producto existente
 const editarProducto = async (req, res) => {
-    let productoId = req.params.id;
-    let parametros = req.body;
+    const productoId = req.params.id;
+    const parametros = req.body;
 
     try {
-        const productoActualizado = await Producto.findByIdAndUpdate(
-            productoId,
+        validarProducto(parametros);
+
+        const productoActualizado = await Producto.findOneAndUpdate(
+            { id: productoId },
             parametros,
             { new: true }
         );
@@ -42,21 +50,25 @@ const editarProducto = async (req, res) => {
         return res.status(200).json({
             status: "éxito",
             producto: productoActualizado,
-            mensaje: "Producto actualizado con éxito"
+            mensaje: "Producto actualizado!"
         });
     } catch (error) {
-        return res.status(500).json({
+        return res.status(400).json({
             status: "error",
-            mensaje: "No se pudo actualizar el producto"
+            mensaje: "Error al actualizar el producto",
+            error
         });
     }
 };
 
-const eliminarProducto = async (req, res) => {
-    let productoId = req.params.id;
+// Eliminar un producto
+const borrarProducto = async (req, res) => {
+    const productoId = req.params.id;
 
     try {
-        const productoEliminado = await Producto.findByIdAndDelete(productoId);
+        validarIdProducto(productoId);
+
+        const productoEliminado = await Producto.findOneAndDelete({ id: productoId });
 
         if (!productoEliminado) {
             return res.status(404).json({
@@ -68,12 +80,13 @@ const eliminarProducto = async (req, res) => {
         return res.status(200).json({
             status: "éxito",
             producto: productoEliminado,
-            mensaje: "Producto eliminado con éxito"
+            mensaje: "Producto eliminado"
         });
     } catch (error) {
-        return res.status(500).json({
+        return res.status(400).json({
             status: "error",
-            mensaje: "No se pudo eliminar el producto"
+            mensaje: "Error al eliminar el producto",
+            error
         });
     }
 };
@@ -81,5 +94,5 @@ const eliminarProducto = async (req, res) => {
 module.exports = {
     crearProducto,
     editarProducto,
-    eliminarProducto
+    borrarProducto
 };

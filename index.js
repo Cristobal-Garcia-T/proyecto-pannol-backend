@@ -7,7 +7,7 @@ console.log("App iniciada");
 conexion();
 
 const app = express();
-const puerto = 25565;
+const puerto = 3900;
 
 app.use(cors());
 

@@ -19,6 +19,7 @@ const rutas_reportes = require("./rutas/reportes");
 const rutas_solicitudes = require("./rutas/solicitudes");
 const rutas_usuarios = require("./rutas/usuarios");
 
+app.use("/productos", rutas_productos);
 app.use("/solicitudes", rutas_solicitudes);
 
 app.listen(puerto, () => {

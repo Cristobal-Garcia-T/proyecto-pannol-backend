@@ -1,6 +1,5 @@
 ﻿const express = require("express");
 const multer = require("multer");
-
 const SolicitudControlador = require("../controladores/solicitudes");
 
 const router = express.Router();

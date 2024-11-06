@@ -19,7 +19,7 @@ const rutas_reportes = require("./rutas/reportes");
 const rutas_solicitudes = require("./rutas/solicitudes");
 const rutas_usuarios = require("./rutas/usuarios");
 
-app.use("/api", rutas_solicitudes);
+app.use("/solicitudes", rutas_solicitudes);
 
 app.listen(puerto, () => {
     console.log("Servidor corriendo en el puerto " + puerto);

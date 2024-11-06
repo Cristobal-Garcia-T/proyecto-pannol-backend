@@ -7,7 +7,7 @@ const crear = (req, res) => {
 
     let parametros = req.body;
 
-    try {
+    /*try {
         validarSolicitud(parametros);
 
     } catch (error) {
@@ -15,11 +15,11 @@ const crear = (req, res) => {
             status: "error",
             mensaje: "Faltan datos por enviar"
         });
-    }
+    }*/
 
-    const articulo = new Solicitud(parametros);
+    const solicitud = new Solicitud(parametros);
 
-    Solicitud.save();
+    solicitud.save();
 
     return res.status(200).json({
         status: "éxito",
@@ -32,7 +32,7 @@ const crear = (req, res) => {
 const listar = async (req, res) => {
 
     try {
-        let consulta = Articulo.find({});
+        let consulta = Solicitud.find({});
 
         if (req.params.ultimos) {
             consulta.limit(req.params.ultimos);

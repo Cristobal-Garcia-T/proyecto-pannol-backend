@@ -3,6 +3,7 @@ const path = require("path");
 const { validarProducto, validarIdProducto } = require("../util/validador");
 const Producto = require("../modelos/productos");
 
+//Crear producto POST
 const crearProducto = async (req, res) => {
     const parametros = req.body;
 
@@ -18,15 +19,10 @@ const crearProducto = async (req, res) => {
             mensaje: "Producto creado con éxito!"
         });
     } catch (error) {
-        return res.status(400).json({
-            status: "error",
-            mensaje: "Error al crear el producto",
-            error
-        });
     }
-};
+}
 
-// Editar un producto existente
+// Editar un producto existente PUT
 const editarProducto = async (req, res) => {
     const productoId = req.params.id;
     const parametros = req.body;
@@ -61,7 +57,7 @@ const editarProducto = async (req, res) => {
     }
 };
 
-// Eliminar un producto
+// Eliminar un producto DELETE
 const borrarProducto = async (req, res) => {
     const productoId = req.params.id;
 

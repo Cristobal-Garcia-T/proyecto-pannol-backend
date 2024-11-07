@@ -1,21 +1,21 @@
 const fs = require("fs");
 const path = require("path");
-const { validarSolicitud, validarIdSolicitud } = require("../util/validador");
+const {validarNuevaSolicitud} = require("../util/validador");
 const Solicitud = require("../modelos/solicitudes");
 
 const crear = (req, res) => {
 
     let parametros = req.body;
 
-    /*try {
-        validarSolicitud(parametros);
+    try {
+        validarNuevaSolicitud(parametros);
 
     } catch (error) {
         return res.status(400).json({
             status: "error",
-            mensaje: "Faltan datos por enviar"
+            mensaje: error.message
         });
-    }*/
+    }
 
     const solicitud = new Solicitud(parametros);
 

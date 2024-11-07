@@ -2,12 +2,12 @@
 const express = require("express");
 const cors = require("cors");
 
-console.log("App iniciada");
-
 conexion();
 
 const app = express();
 const puerto = 3900;
+
+console.log("App iniciada");
 
 app.use(cors());
 

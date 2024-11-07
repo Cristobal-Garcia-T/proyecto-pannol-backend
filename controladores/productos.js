@@ -1,7 +1,7 @@
 const fs = require("fs");
 const path = require("path");
-const { validarProducto, validarIdProducto } = require("../util/validar");
-const Producto = require("../modelos/Producto");
+const { validarProducto, validarIdProducto } = require("../util/validador");
+const Producto = require("../modelos/productos");
 
 const crearProducto = async (req, res) => {
     const parametros = req.body;

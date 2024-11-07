@@ -24,7 +24,7 @@ const SolicitudesSchema = Schema({
     },
     Estado: {
         type: String,
-        required: true
+        default: "Activo"
     }
 });
 

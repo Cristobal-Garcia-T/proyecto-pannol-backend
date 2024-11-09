@@ -12,7 +12,8 @@ const almacenamiento = multer.diskStorage({
 
 const subidas = multer({storage: almacenamiento});
 
-router.post("/crearSolicitud", SolicitudControlador.crear);
-router.get("/listarSolicitudes", SolicitudControlador.listar);
+router.post("/crear", SolicitudControlador.crear);
+router.get("/listar", SolicitudControlador.listar);
+router.get("/listar/:Solicitante", SolicitudControlador.listarSolicitante);
 
 module.exports = router;

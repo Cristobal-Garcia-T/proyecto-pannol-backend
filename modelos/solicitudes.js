@@ -6,7 +6,7 @@ const SolicitudesSchema = Schema({
         required: true
     },
     Producto: {
-        type: String,
+        type: Array,
         required: true
     },
     Emision: {

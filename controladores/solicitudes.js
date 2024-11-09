@@ -60,7 +60,28 @@ const listar = async (req, res) => {
     }
 }
 
+const listarSolicitante  = async (req, res) => {
+    let consulta = Solicitud.find({Solicitante : req.params.Solicitante.toString()});
+
+    let resultado = await consulta.sort({ Estado: -1 });
+    if (!resultado || resultado.length <= 0) {
+        return res.status(404).json({
+            status: "error",
+            mensaje: ["No se han encontrado artículos", req.params]
+        });
+    }
+    return res.status(200).json({
+        status: "éxito",
+        Solicitud: resultado
+    });
+}
+
+
+
+
+
 module.exports = {
     listar,
     crear,
+    listarSolicitante
 }

@@ -5,6 +5,10 @@ const SolicitudesSchema = Schema({
         type: String,
         required: true
     },
+    RutSolicitante: {
+        type: String,
+        required: true,
+    },
     Producto: {
         type: Array,
         required: true

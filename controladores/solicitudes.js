@@ -86,7 +86,7 @@ const borrar = async (req, res) => {
                 mensaje : "Error al borrar la solicitud"
             })
         }
-        return res.status(200).send({
+        return res.status(200).json({
             status: "éxito",
             Solicitud : resultado,
             mensaje: "Solicitud borrada"
@@ -102,9 +102,39 @@ const borrar = async (req, res) => {
 
 }
 
+const editar = async (req, res) => {
+    let id = req.params.id;
+    let nuevaSolicitud = req.body;
+
+    try {
+        validarNuevaSolicitud(nuevaSolicitud);
+        let resultado = await Solicitud.findOneAndUpdate({ _id: id }, req.body, { new: true });
+
+        if (!resultado) {
+            return res.status(500).json({
+                status: "error",
+                mensaje: "Error al actualizar solicitud"
+            })
+        }
+        return res.status(200).json({
+            status: "éxito",
+            Solicitud: resultado,
+            mensaje: "Solicitud actualizada con éxito"
+        })
+    }
+    catch (error) {
+        return res.status(400).json({
+            status: "error",
+            Solicitud: nuevaSolicitud,
+            mensaje: "Datos entregados no validos"
+        })
+    }
+}
+
 module.exports = {
-    listar,
     crear,
+    listar,
     listarSolicitante,
-    borrar
+    borrar,
+    editar
 }

@@ -22,6 +22,10 @@ const UsuarioSchema = Schema({
     contrasena: {
         type: String,
         required: true
+    },
+    habilitado: {
+        type: Boolean,
+        default: true
     }
 });
 

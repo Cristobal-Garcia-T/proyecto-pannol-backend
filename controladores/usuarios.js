@@ -1,6 +1,7 @@
 const fs = require("fs");
 const Usuario = require("../modelos/usuarios");
-const {validarUsuario} = require("../util/validadorUsuarios");
+const {validarUsuario, validarRut} = require("../util/validadorUsuarios");
+const Solicitud = require("../modelos/solicitudes");
 
 const crear = (req, res) => {
 
@@ -57,24 +58,20 @@ const listar = async (req, res) => {
 };
 
 // Listar un solo usuario por ID
-const listar_uno = async (req, res) => {
-    // Recoger ID del usuario de la URL
-    let id = req.params.id;
+const listarRut = async (req, res) => {
 
-    // Validar ID
     try {
-        validarIdUsuario(id); // Función de validación del ID
+        validarRut(req.params.rut.toString());
 
     } catch (error) {
         return res.status(400).json({
             status: "error",
-            mensaje: "ID con formato incorrecto"
+            mensaje: error.message
         });
     }
 
     try {
-        // Buscar el usuario
-        let resultado = await Usuario.findById(id);
+        let resultado = await Usuario.find({rut: req.params.rut.toString()});
         if (!resultado) {
             return res.status(404).json({
                 status: "error",
@@ -94,163 +91,35 @@ const listar_uno = async (req, res) => {
     }
 };
 
-// Borrar usuario
-const borrar = async (req, res) => {
-    // Recoger ID del usuario de la URL
-
+const cambiarEstado = async (req, res) => {
     try {
-        let usuarioId = req.params.id;
-        validarIdUsuario(usuarioId); // Validar el ID del usuario
-        let resultado = await Usuario.findOneAndDelete({ _id: usuarioId });
-
-        if (!resultado) {
-            return res.status(500).json({
-                status: "error",
-                mensaje: "Error al borrar el usuario"
-            });
-        } else {
-            return res.status(200).json({
-                status: "éxito",
-                usuario: resultado,
-                mensaje: "Usuario borrado"
-            });
-        }
-    } catch (error) {
-        return res.status(400).json({
-            status: "error",
-            mensaje: "No se ha podido borrar el usuario, posiblemente el formato de ID es incorrecto!!"
-        });
-    }
-};
-
-// Editar usuario
-const editar = async (req, res) => {
-    // Recoger ID del usuario a editar
-    let usuarioId = req.params.id;
-
-    // Recoger datos del cuerpo de la solicitud (PUT)
-    let parametros = req.body;
-
-    // Validar datos
-    try {
-        validarUsuario(parametros); // Validar los nuevos datos
-        // Buscar y actualizar usuario
-        let resultado = await Usuario.findOneAndUpdate({ _id: usuarioId }, req.body, { new: true });
-
-        if (!resultado) {
-            return res.status(500).json({
-                status: "error",
-                mensaje: "Error al actualizar el usuario"
-            });
-        } else {
-            return res.status(200).json({
-                status: "éxito",
-                usuario: resultado,
-                mensaje: "Usuario actualizado!!"
-            });
-        }
+        validarRut(req.params.rut.toString());
 
     } catch (error) {
         return res.status(400).json({
             status: "error",
-            mensaje: "Faltan datos por enviar"
+            mensaje: error.message
         });
     }
-};
+    let resultado = await Usuario.findOneAndUpdate({ rut: req.params.rut.toString()},[{ $set: { habilitado: { $not: "$habilitado" } } }], { new: true });
 
-// Subir imagen de perfil de usuario
-const subir = async (req, res) => {
-
-    try {
-        // Comprobar que se ha subido un archivo
-        if (!req.file && !req.files) {
-            return res.status(404).json({
-                status: "error",
-                mensaje: "Petición inválida"
-            });
-        }
-
-        // Nombre del archivo
-        let archivo = req.file.originalname;
-
-        // Obtener extensión del archivo
-        let archivo_split = archivo.split("\."); // nombredearchivo.jpg
-        let extension = archivo_split[1];
-
-        // Comprobar si la extensión es correcta
-        if (extension != "png" && extension != "jpg" &&
-            extension != "jpeg" && extension != "gif") {
-
-            // Borrar archivo si la extensión no es válida
-            fs.unlink(req.file.path, (error) => {
-                return res.status(400).json({
-                    status: "error",
-                    mensaje: "Imagen inválida"
-                });
-            });
-        } else {
-            // Recoger ID del usuario a editar
-            let usuarioId = req.params.id;
-
-            // Buscar y actualizar el usuario con el nombre del archivo
-            let resultado = await Usuario.findOneAndUpdate({ _id: usuarioId }, { imagen: req.file.filename }, { new: true });
-
-            if (!resultado) {
-                return res.status(500).json({
-                    status: "error",
-                    mensaje: "Error al actualizar"
-                });
-            } else {
-                // Devolver respuesta con el usuario actualizado y el archivo
-                return res.status(200).json({
-                    status: "éxito",
-                    usuario: resultado,
-                    fichero: req.file
-                });
-            }
-        }
-    } catch (error) {
-        return res.status(400).json({
+    if (!resultado) {
+        return res.status(500).json({
             status: "error",
-            mensaje: "Error al actualizar!"
-        });
+            mensaje: "Error al actualizar solicitud"
+        })
     }
-};
+    return res.status(200).json({
+        status: "éxito",
+        Solicitud: resultado,
+        mensaje: "Estado cambiado con éxito"
+    })
+}
 
-// Buscar usuarios
-const buscador = async (req, res) => {
-    // Obtener el término de búsqueda
-    let busqueda = req.params.busqueda;
-
-    // Buscar usuarios que coincidan con el término en nombre o email
-    let consulta = Usuario.find({
-        "$or": [
-            { "nombre": { "$regex": busqueda, "$options": "i" } },
-            { "email": { "$regex": busqueda, "$options": "i" } },
-        ]
-    });
-
-    let resultado = await consulta.sort({ fecha: -1 });
-
-    if (!resultado || resultado.length <= 0) {
-        return res.status(404).json({
-            status: "error",
-            mensaje: "No se han encontrado usuarios"
-        });
-    } else {
-        return res.status(200).json({
-            status: "éxito",
-            usuarios: resultado
-        });
-    }
-};
 
 module.exports = {
     crear,
     listar,
-    listar_uno,
-    borrar,
-    editar,
-    subir,
-    buscador
+    listarRut,
+    cambiarEstado
 };

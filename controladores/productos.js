@@ -19,6 +19,10 @@ const crearProducto = async (req, res) => {
             mensaje: "Producto creado con éxito!"
         });
     } catch (error) {
+        return res.status(400).json({
+            status: "error",
+            mensaje: error.message
+        })
     }
 }
 

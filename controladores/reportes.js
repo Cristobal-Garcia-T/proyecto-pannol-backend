@@ -8,8 +8,8 @@ const crearReporte = async (req, res) => {
     try {
         validarReporte(parametros);
 
-        const Reporte = new Reporte(parametros);
-        await Reporte.save();
+        const reporte = new Reporte(parametros);
+        await reporte.save();
 
         return res.status(200).json({
             status: "éxito",
@@ -17,6 +17,10 @@ const crearReporte = async (req, res) => {
             mensaje: "Reporte creado con éxito!"
         });
     } catch (error) {
+        return res.status(400).json({
+            status: "error",
+            mensaje: error.message
+        })
     }
 }
 
@@ -54,12 +58,12 @@ const listarReporte = async (req, res) => {
 
 //Borrar Reporte
 const borrarReporte = async (req, res) => {
-    const ReporteId = req.params.id;
+    const reporteId = req.params.id;
 
     try {
-        validarIdReporte(ReporteId);
+        validarIdReporte(reporteId);
 
-        const ReporteEliminado = await Reporte.findOneAndDelete({ id: ReporteId });
+        const ReporteEliminado = await Reporte.findOneAndDelete({ _id: reporteId });
 
         if (!ReporteEliminado) {
             return res.status(404).json({

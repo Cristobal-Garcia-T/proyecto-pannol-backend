@@ -62,7 +62,7 @@ const editarProducto = async (req, res) => {
 };
 
 //Listar productos GET
-const listarProducto = async (req, res) => {
+const listarProductoId = async (req, res) => {
     let consulta = Producto.find({ nombre: req.params.nombre.toString() });
 
     let resultado = await consulta.sort({ Estado: -1 });
@@ -112,6 +112,6 @@ const borrarProducto = async (req, res) => {
 module.exports = {
     crearProducto,
     editarProducto,
-    listarProducto,
+    listarProductoId,
     borrarProducto
 };

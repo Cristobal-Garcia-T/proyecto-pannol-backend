@@ -9,13 +9,11 @@ const UsuarioSchema = Schema({
         type: String,
         required: true,
         unique: true,
-        id: true
     },
     correo: {
         type: String,
         required: true,
         unique: true,
-        match: [/^\S+@\S+\.\S+$/, 'Por favor ingrese un correo válido']
     },
     rol: {
         type: String,

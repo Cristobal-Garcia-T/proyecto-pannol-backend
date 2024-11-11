@@ -1,19 +1,10 @@
 const fs = require("fs");
 const Usuario = require("../modelos/usuarios");
+const {validarUsuario} = require("../util/validadorUsuarios");
 
 const crear = (req, res) => {
 
     let parametros = req.body;
-
-    try {
-        validarUsuario(parametros); // Función de validación para usuarios
-
-    } catch (error) {
-        return res.status(400).json({
-            status: "error",
-            mensaje: "Faltan datos por enviar"
-        });
-    }
 
     const usuario = new Usuario(parametros);
 

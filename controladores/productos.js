@@ -57,6 +57,24 @@ const editarProducto = async (req, res) => {
     }
 };
 
+//Listar productos GET
+const listarProducto = async (req, res) => {
+    let consulta = Producto.find({ nombre: req.params.nombre.toString() });
+
+    let resultado = await consulta.sort({ Estado: -1 });
+    if (!resultado || resultado.length <= 0) {
+        return res.status(404).json({
+            status: "error",
+            mensaje: "No se han encontrado productos con el nombre: " + req.params.nombre.toString()
+        });
+    }
+    return res.status(200).json({
+        status: "éxito",
+        reqParam: req.params,
+        productos: resultado
+    });
+}
+
 // Eliminar un producto DELETE
 const borrarProducto = async (req, res) => {
     const productoId = req.params.id;
@@ -90,5 +108,6 @@ const borrarProducto = async (req, res) => {
 module.exports = {
     crearProducto,
     editarProducto,
+    listarProducto,
     borrarProducto
 };

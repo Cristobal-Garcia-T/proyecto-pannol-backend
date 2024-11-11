@@ -1,6 +1,4 @@
-const fs = require("fs");
-const path = require("path");
-const {validarNuevaSolicitud, validarIdSolicitud} = require("../util/validador");
+const {validarNuevaSolicitud, validarIdSolicitud} = require("../util/validadorSolicitudes");
 const Solicitud = require("../modelos/solicitudes");
 
 const crear = (req, res) => {

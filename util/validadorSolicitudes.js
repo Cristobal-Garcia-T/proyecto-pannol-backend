@@ -7,7 +7,7 @@ const validarNuevaSolicitud = (param) => {
     if (param.Producto.length < 1) {
         throw new Error("Falta producto!!");
     }
-    if (param.RutSolicitante.length < 9) {
+    if (param.RutSolicitante.length !== 9) {
         throw new Error("Rut invalido!!");
     }
 }

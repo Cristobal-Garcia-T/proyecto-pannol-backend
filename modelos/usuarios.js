@@ -6,9 +6,10 @@ const UsuarioSchema = Schema({
         required: true
     },
     rut: {
-        type: Number,
+        type: String,
         required: true,
-        unique: true
+        unique: true,
+        id: true
     },
     correo: {
         type: String,
@@ -19,7 +20,6 @@ const UsuarioSchema = Schema({
     rol: {
         type: String,
         required: true,
-        default: 'usuario'
     },
     contrasena: {
         type: String,
@@ -27,4 +27,4 @@ const UsuarioSchema = Schema({
     }
 });
 
-module.exports = model("usuario", UsuarioSchema, "usuarios");
+module.exports = model("Usuario", UsuarioSchema, "Usuarios");

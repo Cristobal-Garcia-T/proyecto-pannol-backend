@@ -1,13 +1,10 @@
 const fs = require("fs");
-const path = require("path");
+const Usuario = require("../modelos/usuarios");
 
-// Crear usuario
 const crear = (req, res) => {
 
-    // Obtener parámetros del cuerpo de la solicitud (POST)
     let parametros = req.body;
 
-    // Validar datos
     try {
         validarUsuario(parametros); // Función de validación para usuarios
 
@@ -18,13 +15,10 @@ const crear = (req, res) => {
         });
     }
 
-    // Crear el objeto de usuario a guardar
     const usuario = new Usuario(parametros);
 
-    // Guardar el usuario en la base de datos
     usuario.save();
 
-    // Devolver resultado
     return res.status(200).json({
         status: "éxito",
         usuario: parametros,

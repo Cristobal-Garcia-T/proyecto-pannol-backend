@@ -1,6 +1,6 @@
 const fs = require("fs");
 const path = require("path");
-const { validarProducto, validarIdProducto } = require("../util/validador");
+const { validarProducto, validarIdProducto } = require("../util/validadorSolicitudes");
 const Producto = require("../modelos/productos");
 
 //Crear producto POST

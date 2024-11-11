@@ -5,11 +5,6 @@ const ProductoSchema = Schema({
         type: String,
         required: true
     },
-    id: {
-        type: String,
-        required: true,
-        unique: true
-    },
     stock: {
         type: Number,
         required: true,

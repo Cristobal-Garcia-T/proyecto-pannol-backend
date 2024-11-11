@@ -5,19 +5,26 @@ const {validarUsuario} = require("../util/validadorUsuarios");
 const crear = (req, res) => {
 
     let parametros = req.body;
+    try {
+        validarUsuario(parametros);
+        const usuario = new Usuario(parametros);
 
-    const usuario = new Usuario(parametros);
+        usuario.save();
 
-    usuario.save();
-
-    return res.status(200).json({
-        status: "éxito",
-        usuario: parametros,
-        mensaje: "Usuario creado con éxito!!"
-    });
+        return res.status(200).json({
+            status: "éxito",
+            usuario: parametros,
+            mensaje: "Usuario creado con éxito!!"
+        });
+    }
+    catch (error) {
+        return res.status(400).json({
+            status: "error",
+            mensaje: error.message
+        })
+    }
 };
 
-// Listar usuarios
 const listar = async (req, res) => {
 
     try {

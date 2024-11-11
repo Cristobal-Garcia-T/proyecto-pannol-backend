@@ -1,4 +1,4 @@
-const { validarReporte, validarIdReporte } = require("../util/validadorReporte");
+const { validarReporte, validarIdReporte } = require("../util/validadorReportes");
 const Reporte = require("../modelos/reportes");
 
 //Crear Reporte POST

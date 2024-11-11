@@ -31,7 +31,7 @@ const editarProducto = async (req, res) => {
         validarProducto(parametros);
 
         const productoActualizado = await Producto.findOneAndUpdate(
-            { id: productoId },
+            { _id: productoId },
             parametros,
             { new: true }
         );
@@ -82,7 +82,7 @@ const borrarProducto = async (req, res) => {
     try {
         validarIdProducto(productoId);
 
-        const productoEliminado = await Producto.findOneAndDelete({ id: productoId });
+        const productoEliminado = await Producto.findOneAndDelete({ _id: productoId });
 
         if (!productoEliminado) {
             return res.status(404).json({

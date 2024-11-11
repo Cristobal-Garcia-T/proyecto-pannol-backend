@@ -5,5 +5,6 @@ const router = express.Router();
 
 
 router.post("/crear", usuariosControlador.crear);
+router.get("/listar", usuariosControlador.listar);
 
 module.exports = router;

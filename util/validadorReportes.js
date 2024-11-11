@@ -9,7 +9,7 @@ const validarIdReporte = (id) => {
 
 const validarReporte = (param) => {
     if (validator.isEmpty(param.detalles)) {
-        throw new Error("Falta solicitante!!");
+        throw new Error("Falta texto!!");
     }
 }
 

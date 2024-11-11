@@ -22,6 +22,7 @@ const rutas_usuarios = require("./rutas/usuarios");
 app.use("/productos", rutas_productos);
 app.use("/solicitudes", rutas_solicitudes);
 app.use("/usuarios", rutas_usuarios);
+app.use("/reportes", rutas_reportes);
 
 app.listen(puerto, () => {
     console.log("Servidor corriendo en el puerto " + puerto);
